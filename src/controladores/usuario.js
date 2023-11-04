@@ -39,8 +39,37 @@ const cadastrarUsuario = async (req, res) => {
     }
 }
 
+const atualizarPerfilDoUsuario = async (req, res) => {
+    const { id } = req.usuario;
+    const { nome, email, senha } = req.body;
+
+    try {
+        await usuarioSchema.validateAsync({ nome, email, senha });
+
+        const usuarioExistente = await knex('usuarios').whereNot('id', id).where('email', email).first();
+
+        if (usuarioExistente) {
+            return res.status(400).json({ mensagem: 'O email já está em uso por outro usuário.' });
+        }
+
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+        const usuarioAtualizado = await knex('usuarios')
+            .where('id', id)
+            .update({ nome, email, senha: senhaCriptografada });
+
+        if (usuarioAtualizado === 0) {
+            return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
+        }
+
+        return res.status(200).json({ mensagem: 'Perfil do usuário atualizado com sucesso.' });
+
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor' });
+    }
+}
+
 module.exports = {
     cadastrarUsuario,
-
-
+    atualizarPerfilDoUsuario,
 }
