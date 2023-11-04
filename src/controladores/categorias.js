@@ -1,6 +1,6 @@
 const knex = require('../conexao');
 
-const listarTransacoes = async (req, res) => {
+const listarCategorias = async (req, res) => {
     try {
         const categorias = await knex('categorias');
     return res.json(categorias);
@@ -9,4 +9,4 @@ const listarTransacoes = async (req, res) => {
     }
 }
 
-module.exports = listarTransacoes;
+module.exports = listarCategorias;
