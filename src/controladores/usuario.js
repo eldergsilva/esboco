@@ -69,7 +69,20 @@ const atualizarPerfilDoUsuario = async (req, res) => {
     }
 }
 
+const detalharUsuario = async (req, res) => {
+    try {
+      const usuarioAutenticado = req.usuario;
+  
+      const { senha: _, ...detalhesUsuario } = usuarioAutenticado;
+  
+      return res.status(200).json(detalhesUsuario);
+    } catch (erro) {
+      return res.status(500).json({ mensagem: 'Erro interno do servidor' });
+    }
+  };
+
 module.exports = {
     cadastrarUsuario,
     atualizarPerfilDoUsuario,
+    detalharUsuario,
 }
