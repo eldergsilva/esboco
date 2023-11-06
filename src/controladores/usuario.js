@@ -40,7 +40,7 @@ const cadastrarUsuario = async (req, res) => {
 }
 
 const atualizarPerfilDoUsuario = async (req, res) => {
-    const { id } = req.usuario;
+    const { id } = req.params;
     const { nome, email, senha } = req.body;
 
     try {
@@ -65,21 +65,27 @@ const atualizarPerfilDoUsuario = async (req, res) => {
         return res.status(200).json({ mensagem: 'Perfil do usuário atualizado com sucesso.' });
 
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
 }
 
+// const detalharUsuario = async (req, res) => {
+// try {
+//     const usuarioAutenticado = req.usuario;
+
+//    const { senha: _, ...detalhesUsuario } = usuarioAutenticado;
+
+//      return res.status(200).json(detalhesUsuario);
+//  } catch (erro) {
+//     console.log(erro)
+// return res.status(500).json({ mensagem: 'Erro interno do servidor' });
+//  }
+// };
+
 const detalharUsuario = async (req, res) => {
-    try {
-      const usuarioAutenticado = req.usuario;
-  
-      const { senha: _, ...detalhesUsuario } = usuarioAutenticado;
-  
-      return res.status(200).json(detalhesUsuario);
-    } catch (erro) {
-      return res.status(500).json({ mensagem: 'Erro interno do servidor' });
-    }
-  };
+    return res.status(200).json({ usuario: req.usuario });
+};
 
 module.exports = {
     cadastrarUsuario,
