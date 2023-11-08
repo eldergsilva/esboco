@@ -11,10 +11,10 @@ const rotas = express()
 
 rotas.post('/usuario', validarRequisicao(usuarioSchema), cadastrarUsuario)
 rotas.post('/login', validarRequisicao(loginSchema), login)
-rotas.put('/usuario/:id', validarRequisicao(usuarioSchema), atualizarPerfilDoUsuario)
 rotas.get('/categorias', listarCategorias)
 
 rotas.use(filtroLogin)
+rotas.put('/usuario/:id', validarRequisicao(usuarioSchema), atualizarPerfilDoUsuario)
 rotas.get('/usuario', detalharUsuario)
 
 
