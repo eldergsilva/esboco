@@ -84,7 +84,50 @@ const atualizarProduto = async (req, res) => {
     }
 }
 
+const listarProduto = async (req, res) => {
+    //const { usuario } = req;
+    const { categoria } = req.query;
+
+    try {
+        const produtos = await knex('produtos')
+            //.where({ usuario_id: usuario.id })
+            .where(query => {
+                if (categoria) {
+                    return query.where('categoria_id', 'ilike', `%${categoria}%`);
+                }
+            })
+
+            .orderBy('id', 'asc'); // Para ordernar por padrão ID VERIFICAR SE DEIXA OU SE TIRA
+
+        return res.status(200).json(produtos);
+    } catch (error) {
+        return res.status(400).json({ erro: 'Erro ao listar produtos', mensagem: error.message });
+    }
+}
+
+const detalharProduto = async (req, res) => {
+    const { usuario } = req;
+    const { id } = req.params;
+
+    try {
+        const produto = await knex('produtos').where({
+            id,
+            usuario_id: usuario.id
+        }).first();
+
+        if (!produto) {
+            return res.status(404).json({ erro: 'Produto não encontrado', id_produto: id });
+        }
+
+        return res.status(200).json(produto);
+    } catch (error) {
+        return res.status(400).json({ erro: 'Erro ao detalhar produto', mensagem: error.message });
+    }
+}
+
 module.exports = {
     cadastrarProduto,
-    atualizarProduto
+    atualizarProduto,
+    listarProduto,
+    detalharProduto
 }
