@@ -7,6 +7,7 @@ const usuarioSchema = require('./validacao/usuario');
 const { login } = require('./controladores/login');
 const { filtroLogin } = require('./intermediarios/filtroLogin');
 const { cadastrarProduto, atualizarProduto, listarProdutos, detalharProduto, listarProduto } = require('./controladores/produtos');
+const { listarClientes } = require('./controladores/clientes');
 
 const rotas = express()
 
@@ -23,6 +24,9 @@ rotas.post('/produto', cadastrarProduto)
 rotas.put('/produto/:id', atualizarProduto)
 rotas.get('/produto', listarProduto)
 rotas.get('/produto/:id', detalharProduto)
+
+rotas.delete('/produto/:id', )
+rotas.get('/clientes', listarClientes)
 
 
 module.exports = rotas
