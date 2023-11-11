@@ -8,12 +8,11 @@ const cadastrarProduto = async (req, res) => {
         return res.status(404).json('O campo descriçâo é obrigatório')
     }
 
-    if (!valor) {
-        return res.status(404).json('O campo valor é obrigatório')
-    }
-
     if (!quantidade_estoque) {
         return res.status(404).json('O campo quantidade de estoque é obrigatório')
+    }
+    if (!valor) {
+        return res.status(404).json('O campo valor é obrigatório')
     }
 
     try {
@@ -125,7 +124,7 @@ const detalharProduto = async (req, res) => {
     }
 }
 
-const deletarProduto = async(req, res) => {
+const deletarProduto = async (req, res) => {
     const { id } = req.params;
 
     try {
