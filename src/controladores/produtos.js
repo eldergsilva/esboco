@@ -125,9 +125,35 @@ const detalharProduto = async (req, res) => {
     }
 }
 
+const deletarProduto = async(req, res) => {
+    const { id } = req.params;
+
+    try {
+        const produto = await knex('produtos')
+            .where('id', id)
+            .first();
+
+        if (!produto) {
+            return res.status(404).json({ erro: 'Produto não encontrado', id_produto: id });
+        }
+
+        const produtoExcluido = await knex('produtos')
+            .where('id', id)
+            .del();
+
+        if (!produtoExcluido) {
+            return res.status(400).json('O produto não foi excluído');
+        }
+
+        return res.status(200).json('Produto excluído com sucesso.');
+    } catch (error) {
+        return res.status(400).json({ erro: 'Erro ao excluir produto', mensagem: error.message });
+    }
+}
 module.exports = {
     cadastrarProduto,
     atualizarProduto,
     listarProduto,
-    detalharProduto
+    detalharProduto,
+    deletarProduto
 }
