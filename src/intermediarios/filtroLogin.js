@@ -10,6 +10,8 @@ const filtroLogin = async (req, res, next) => {
             mesagem: 'Não autorizado'
         });
     }
+
+
     const token = authorization.replace('Bearer ', '').trim();
 
     try {
@@ -22,15 +24,14 @@ const filtroLogin = async (req, res, next) => {
                 mesagem: 'Usuario não encontrado'
             });
         }
-
         const { senha, ...usuario } = usuarioExiste;
 
         req.usuario = usuario;
 
         next();
     } catch (error) {
-        return res.status(400).json({
-            mesagem: 'error interno do servidor'
+        return res.status(401).json({
+            mesagem: 'você precisa passa token'
         });
     }
 }

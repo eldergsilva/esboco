@@ -1,19 +1,22 @@
 const knex = require('../conexao')
+const { id } = require('../validacao/usuario')
 
 const cadastrarProduto = async (req, res) => {
-    const { categorias } = req
     const { descricao, quantidade_estoque, valor, categoria_id } = req.body
-
     if (!descricao) {
-        return res.status(404).json('O campo descriçâo é obrigatório')
+        return res.status(404).json({ mesagem: 'O campo descriçâo é obrigatório' })
     }
 
     if (!quantidade_estoque) {
-        return res.status(404).json('O campo quantidade de estoque é obrigatório')
+        return res.status(404).json({ mesagem: 'O campo quantidade de estoque é obrigatório' })
     }
     if (!valor) {
-        return res.status(404).json('O campo valor é obrigatório')
+        return res.status(404).json({ mesagem: 'O campo valor é obrigatório' })
     }
+    if (!categoria_id) {
+        return res.status(404).json({ mesagem: 'voce precisa inseri categoria_id' })
+    }
+
 
     try {
         const produto = await knex('produtos')
@@ -32,20 +35,27 @@ const cadastrarProduto = async (req, res) => {
         return res.status(200).json(produto[0])
     } catch (error) {
         console.log(error)
-        return res.status(400).json(error.message)
+        return res.status(400).json({ mesagem: 'error interno no servidor' })
     }
 }
 
 
 const atualizarProduto = async (req, res) => {
-    const { categorias } = req
     const { id } = req.params
     const { descricao, quantidade_estoque, valor, categoria_id } = req.body
 
-    if (!quantidade_estoque && !valor && !descricao && !categoria_id) {
-        return res
-            .status(404)
-            .json('Informe ao menos um campo para atualizaçao do produto')
+    if (!descricao) {
+        return res.status(404).json({ mesagem: 'O campo descriçâo é obrigatório' })
+    }
+
+    if (!quantidade_estoque) {
+        return res.status(404).json({ mesagem: 'O campo quantidade de estoque é obrigatório' })
+    }
+    if (!valor) {
+        return res.status(404).json({ mesagem: 'O campo valor é obrigatório' })
+    }
+    if (!categoria_id) {
+        return res.status(404).json({ mesagem: 'voce precisa inseri categoria_id' })
     }
 
     try {

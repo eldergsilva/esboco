@@ -3,12 +3,7 @@ const bcrypt = require('bcrypt');
 const usuarioSchema = require('../validacao/usuario');
 
 const cadastrarUsuario = async (req, res) => {
-    const {
-        nome,
-        email,
-        senha
-    } = req.body;
-
+    const { nome, email, senha } = req.body;
 
     try {
         await usuarioSchema.validateAsync(req.body)
