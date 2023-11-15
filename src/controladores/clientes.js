@@ -17,14 +17,14 @@ const cadastrarCliente = async (req, res) => {
     } = req.body;
 
     try {
-         
-        
-        
+
+
+
         const clienteEncontrado = await knex('clientes').where({ email }).first();
         if (clienteEncontrado) {
             return res.status(400).json({ mensagem: "O email já existe" });
         }
-        
+
         const cliente = await knex('clientes').insert({
             nome,
             email,
@@ -42,16 +42,16 @@ const cadastrarCliente = async (req, res) => {
         if (!clienteCadastrado) {
             return res.status(400).json({ mensagem: "O cliente não foi cadastrado." });
         }
-         
+
         return res.status(201).json(clienteCadastrado);
     } catch (error) {
-        
+
         return res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
 };
 
 const editarDadosDoCliente = async (req, res) => {
-     
+
     const { id } = req.params;
     const {
         nome,
@@ -67,8 +67,8 @@ const editarDadosDoCliente = async (req, res) => {
 
     try {
 
-        
-        
+
+
 
         const clienteExistente = await knex('clientes').whereNot('id', id).where('email', email).first();
 
@@ -112,8 +112,27 @@ const listarClientes = async (req, res) => {
     }
 };
 
+const detalharCliente = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const cliente = await knex('clientes').where({
+            id,
+        }).first();
+
+        if (!cliente) {
+            return res.status(404).json({ erro: 'Cliente não encontrado', id_cliente: id });
+        }
+
+        return res.status(200).json(cliente);
+    } catch (error) {
+        return res.status(400).json({ erro: 'Error ao detalhar cliente', mensagem: error.message });
+    }
+};
+
 module.exports = {
     cadastrarCliente,
     editarDadosDoCliente,
     listarClientes,
+    detalharCliente
 };
