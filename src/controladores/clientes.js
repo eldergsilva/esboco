@@ -67,9 +67,6 @@ const editarDadosDoCliente = async (req, res) => {
 
     try {
 
-
-
-
         const clienteExistente = await knex('clientes').whereNot('id', id).where('email', email).first();
 
         if (clienteExistente) {
