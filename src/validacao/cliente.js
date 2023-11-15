@@ -15,6 +15,12 @@ const clienteSchema = joi.object({
         'any.required': 'O campo cpf é obrigatorio',
         'string.empty': 'O Campo cpf é obrigatorio',
         'string.length':'O cpf precisa ter 11 digitos'
-    })
+    }),
+    cep: joi.string().optional(),
+    rua: joi.string().optional(),
+    numero: joi.string().optional(),
+    bairro: joi.string().optional(),
+    cidade: joi.string().optional(),
+    estado: joi.string().optional(),
 })
 module.exports = clienteSchema
