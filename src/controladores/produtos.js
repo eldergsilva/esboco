@@ -1,24 +1,13 @@
 const knex = require('../conexao')
+const { produtoSchema } = require('../validacao/produto')
 const { id } = require('../validacao/usuario')
 
 const cadastrarProduto = async (req, res) => {
     const { descricao, quantidade_estoque, valor, categoria_id } = req.body
-    if (!descricao) {
-        return res.status(404).json({ mesagem: 'O campo descriçâo é obrigatório' })
-    }
-
-    if (!quantidade_estoque) {
-        return res.status(404).json({ mesagem: 'O campo quantidade de estoque é obrigatório' })
-    }
-    if (!valor) {
-        return res.status(404).json({ mesagem: 'O campo valor é obrigatório' })
-    }
-    if (!categoria_id) {
-        return res.status(404).json({ mesagem: 'voce precisa inseri categoria_id' })
-    }
-
 
     try {
+        await produtoSchema.validateAsync(req.body)
+
         const produto = await knex('produtos')
             .insert({
                 descricao,
@@ -43,20 +32,6 @@ const cadastrarProduto = async (req, res) => {
 const atualizarProduto = async (req, res) => {
     const { id } = req.params
     const { descricao, quantidade_estoque, valor, categoria_id } = req.body
-
-    if (!descricao) {
-        return res.status(404).json({ mesagem: 'O campo descriçâo é obrigatório' })
-    }
-
-    if (!quantidade_estoque) {
-        return res.status(404).json({ mesagem: 'O campo quantidade de estoque é obrigatório' })
-    }
-    if (!valor) {
-        return res.status(404).json({ mesagem: 'O campo valor é obrigatório' })
-    }
-    if (!categoria_id) {
-        return res.status(404).json({ mesagem: 'voce precisa inseri categoria_id' })
-    }
 
     try {
         const produto = await knex('produtos')
@@ -103,7 +78,7 @@ const listarProduto = async (req, res) => {
                     return query.where('categoria_id', 'ilike', `%${categoria}%`);
                 }
             })
-         
+
         return res.status(200).json(produtos);
     } catch (error) {
         return res.status(400).json({ erro: 'Erro ao listar produtos', mensagem: error.message });

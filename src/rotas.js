@@ -9,6 +9,7 @@ const { filtroLogin } = require('./intermediarios/filtroLogin');
 const { cadastrarProduto, atualizarProduto, listarProdutos, detalharProduto, listarProduto, deletarProduto } = require('./controladores/produtos');
 const { listarClientes, cadastrarCliente, editarDadosDoCliente, detalharCliente } = require('./controladores/clientes');
 const clienteSchema = require('./validacao/cliente');
+const { produtoSchema } = require('./validacao/produto');
 
 const rotas = express()
 
@@ -20,12 +21,13 @@ rotas.get('/categorias', listarCategorias)
 rotas.use(filtroLogin)
 rotas.put('/usuario/:id', validarRequisicao(usuarioSchema), atualizarPerfilDoUsuario)
 rotas.get('/usuario', detalharUsuario)
-rotas.post('/produto', cadastrarProduto)
-rotas.put('/produto/:id', atualizarProduto)
+
+rotas.post('/produto', validarRequisicao(produtoSchema), cadastrarProduto)
+rotas.put('/produto/:id', validarRequisicao(produtoSchema), atualizarProduto)
 rotas.get('/produto', listarProduto)
 rotas.get('/produto/:id', detalharProduto)
-
 rotas.delete('/produto/:id', deletarProduto)
+
 rotas.get('/clientes', listarClientes)
 rotas.post('/cliente', validarRequisicao(clienteSchema), cadastrarCliente)
 rotas.put('/cliente/:id', validarRequisicao(clienteSchema), editarDadosDoCliente)

@@ -33,10 +33,10 @@ create table clientes(
   nome text not null,
   email text unique not null,
   cpf varchar(11) unique not null,
-  cep varchar(8) not null,
-  rua text not null,
-  numero text not null,
-  bairro text not null,
-  cidade text not null,
-  estado text not null
+  cep varchar(8),
+  rua text,
+  numero text,
+  bairro text,
+  cidade text,
+  estado text  
 );
