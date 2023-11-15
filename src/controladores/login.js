@@ -20,7 +20,6 @@ const login = async (req, res) => {
                 mesagem: "Usuario e/ ou senha invalido(s)."
             });
         }
-
         const token = jwt.sign({ id: usuario.id }, hash, { expiresIn: '8h' });
 
         const { senha: _, ...dadosUsuario } = usuario;
@@ -30,8 +29,8 @@ const login = async (req, res) => {
             token
         });
     } catch (error) {
-        return res.status(500).json({
-            mesagem: 'erro interno do servidor'
+        return res.status(400).json({
+            mesagem: 'email enexistente'
         });
     }
 }
