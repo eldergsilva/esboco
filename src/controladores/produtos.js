@@ -1,10 +1,8 @@
 const knex = require('../conexao')
 const { produtoSchema } = require('../validacao/produto')
-const { id } = require('../validacao/usuario')
 
 const cadastrarProduto = async (req, res) => {
-    const { descricao, quantidade_estoque, valor, categoria_id } = req.body
-
+    const { descricao, quantidade_estoque, valor, categoria_id, } = req.body
     try {
         await produtoSchema.validateAsync(req.body)
 
