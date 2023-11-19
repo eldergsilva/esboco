@@ -18,6 +18,12 @@ const cadastrarProduto = async (req, res) => {
         if (!produto[0]) {
             return res.status(400).json('O produto não foi cadastrado')
         }
+        if (quantidade_estoque < 0) {
+            return res.status(400).json({ mensagem: 'A quantidade nao pode ser numero negativo' })
+        }
+        if (valor < 1) {
+            return res.status(400).json({ mensagem: 'O valor nao pode ser numero negativo' })
+        }
 
         return res.status(200).json(produto[0])
     } catch (error) {
@@ -25,7 +31,6 @@ const cadastrarProduto = async (req, res) => {
         return res.status(400).json({ mesagem: 'error interno no servidor' })
     }
 }
-
 
 const atualizarProduto = async (req, res) => {
     const { id } = req.params
@@ -59,7 +64,7 @@ const atualizarProduto = async (req, res) => {
             return res.status(400).json('O produto não foi atualizado')
         }
 
-        return res.status(200).json('produto foi atualizado com sucesso.')
+        return res.status(204).json('produto foi atualizado com sucesso.')
     } catch (error) {
         console.log(error)
         return res.status(400).json(error.message)
@@ -92,7 +97,7 @@ const detalharProduto = async (req, res) => {
         }).first();
 
         if (!produto) {
-            return res.status(404).json({ erro: 'Produto não encontrado', id_produto: id });
+            return res.status(400).json({ erro: 'Produto não encontrado', id_produto: id });
         }
 
         return res.status(200).json(produto);
@@ -110,7 +115,7 @@ const deletarProduto = async (req, res) => {
             .first();
 
         if (!produto) {
-            return res.status(404).json({ erro: 'Produto não encontrado', id_produto: id });
+            return res.status(400).json({ erro: 'Produto não encontrado', id_produto: id });
         }
 
         const produtoExcluido = await knex('produtos')
@@ -121,7 +126,7 @@ const deletarProduto = async (req, res) => {
             return res.status(400).json('O produto não foi excluído');
         }
 
-        return res.status(200).json('Produto excluído com sucesso.');
+        return res.status(204).json('Produto excluído com sucesso.');
     } catch (error) {
         return res.status(400).json({ erro: 'Erro ao excluir produto', mensagem: error.message });
     }

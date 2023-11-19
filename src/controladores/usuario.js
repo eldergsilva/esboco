@@ -57,7 +57,7 @@ const atualizarPerfilDoUsuario = async (req, res) => {
             return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
         }
 
-        return res.status(200).json({ mensagem: 'Perfil do usuário atualizado com sucesso.' });
+        return res.status(204).json({ mensagem: 'Perfil do usuário atualizado com sucesso.' });
 
     } catch (error) {
         console.log(error)
