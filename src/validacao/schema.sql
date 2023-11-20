@@ -28,6 +28,10 @@ create table produtos (
   categoria_id int not null
 );
 
+ALTER TABLE produtos
+DROP COLUMN produto_imagem;
+
+
 create table clientes(
   id serial primary key,
   nome text not null,

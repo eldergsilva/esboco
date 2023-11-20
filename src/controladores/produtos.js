@@ -1,17 +1,20 @@
 const knex = require('../conexao')
+const { enviarImagem } = require('../intermediarios/upload')
 const { produtoSchema } = require('../validacao/produto')
 
 const cadastrarProduto = async (req, res) => {
-    const { descricao, quantidade_estoque, valor, categoria_id, } = req.body
+    const { descricao, quantidade_estoque, valor, categoria_id, produto_imagem } = req.body
+    const { originalname, mimetype, buffer } = req.file
+
     try {
         await produtoSchema.validateAsync(req.body)
 
-        const produto = await knex('produtos')
+        let produto = await knex('produtos')
             .insert({
                 descricao,
                 quantidade_estoque,
                 valor,
-                categoria_id
+                categoria_id,
             })
             .returning('*')
 
@@ -24,6 +27,19 @@ const cadastrarProduto = async (req, res) => {
         if (valor < 1) {
             return res.status(400).json({ mensagem: 'O valor nao pode ser numero negativo' })
         }
+        const id = produto[0].id
+
+        const produto_imagem = await enviarImagem(
+            `produtos/${id}/${originalname}`,
+            buffer,
+            mimetype
+        )
+
+        produto = await knex('produtos').update({
+            produto_imagem: produto_imagem.path
+        }).where({ id }).returning('*')
+
+        produto[0].urlImagem = produto_imagem.url
 
         return res.status(200).json(produto[0])
     } catch (error) {

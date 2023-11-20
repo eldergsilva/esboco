@@ -10,6 +10,7 @@ const { cadastrarProduto, atualizarProduto, listarProdutos, detalharProduto, lis
 const { listarClientes, cadastrarCliente, editarDadosDoCliente, detalharCliente } = require('./controladores/clientes');
 const clienteSchema = require('./validacao/cliente');
 const { produtoSchema } = require('./validacao/produto');
+const multer = require('./intermediarios/multer');
 
 const rotas = express()
 
@@ -22,7 +23,7 @@ rotas.use(filtroLogin)
 rotas.put('/usuario/:id', validarRequisicao(usuarioSchema), atualizarPerfilDoUsuario)
 rotas.get('/usuario', detalharUsuario)
 
-rotas.post('/produto', validarRequisicao(produtoSchema), cadastrarProduto)
+rotas.post('/produto', multer.single('produto_imagem'), validarRequisicao(produtoSchema), cadastrarProduto)
 rotas.put('/produto/:id', validarRequisicao(produtoSchema), atualizarProduto)
 rotas.get('/produto', listarProduto)
 rotas.get('/produto/:id', detalharProduto)
