@@ -45,3 +45,19 @@ create table clientes(
   estado text  
 );
 
+
+create table pedidos(
+id serial primary key
+cliente_id int not null
+observacao text,
+valor_total decimal(10,2) not null
+);
+
+
+create table pedido_produtos(
+id serial primary key,
+pedido_id int not null,
+produto_id int not null,
+quantidade_produto int,
+valor_produto decimal(10,2) not null
+);
