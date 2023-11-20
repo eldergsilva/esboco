@@ -29,7 +29,7 @@ create table produtos (
 );
 
 ALTER TABLE produtos
-DROP COLUMN produto_imagem;
+ADD COLUMN produto_imagem VARCHAR(255);
 
 
 create table clientes(
@@ -44,3 +44,4 @@ create table clientes(
   cidade text,
   estado text  
 );
+
