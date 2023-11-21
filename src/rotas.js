@@ -12,7 +12,7 @@ const clienteSchema = require('./validacao/cliente');
 const { produtoSchema } = require('./validacao/produto');
 const multer = require('./intermediarios/multer');
 const { listarPedidos, cadastrarPedido } = require('./controladores/pedidos');
-
+const pedidoSchema =require('./validacao/pedido')
 const rotas = express()
 
 rotas.post('/usuario', validarRequisicao(usuarioSchema), cadastrarUsuario)
