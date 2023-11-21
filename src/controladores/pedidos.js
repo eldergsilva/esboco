@@ -1,3 +1,4 @@
+const knex = require('../conexao')
 const cadastrarPedido = async (req, res) => {
   try {
     const { cliente_id, observacao, pedido_produtos } = req.body;
