@@ -535,6 +535,8 @@ Critérios de aceite:
 
 </details>
 
+---
+
 ## Aulas úteis:
 
 -   [Revisão pt1](https://aulas.cubos.academy/turma/1e4b0f04-1795-4b02-a19f-83e221b2ba4e/aulas/e4e0b794-91a2-42a3-9a03-137c20fcb350)
