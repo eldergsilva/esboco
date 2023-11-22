@@ -24,12 +24,12 @@ const cadastrarUsuario = async (req, res) => {
             }).returning('*');
         const { senha: _, ...usuarioCadastrado } = usuario[0]
         if (!usuario) {
-            return res
-                .status(400).json("O usuário não foi cadastrado.");
+            return res.status(400).json("O usuário não foi cadastrado.");
         }
 
         return res.status(201).json(usuarioCadastrado);
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
 }

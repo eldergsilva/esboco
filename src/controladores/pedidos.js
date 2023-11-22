@@ -19,29 +19,36 @@ const cadastrarPedido = async (req, res) => {
       return res.status(500).json({ mensagem: 'Erro ao obter o ID do pedido' });
     }
 
+    const erros = [];
+
     await Promise.all(pedido_produtos.map(async (produto) => {
       const { produto_id, quantidade_produto } = produto;
 
       const produtoExistente = await knex('produtos').where('id', produto_id).first();
       if (!produtoExistente) {
-        return res.status(404).json({ mensagem: `Produto com ID ${produto_id} não encontrado` });
+        erros.push(`Produto com ID ${produto_id} não encontrado`);
+        return;
       }
 
       if (quantidade_produto > produtoExistente.quantidade_estoque) {
-        return res.status(400).json({ mensagem: `Quantidade insuficiente em estoque para o produto ${produto_id}` });
+        erros.push(`Quantidade insuficiente em estoque para o produto ${produto_id}`);
+      } else {
+        await knex('produtos')
+          .where('id', produto_id)
+          .decrement('quantidade_estoque', quantidade_produto);
+
+        await knex('pedido_produtos').insert({
+          pedido_id: pedido_id.id,
+          produto_id,
+          quantidade_produto,
+          valor_produto: 0,
+        });
       }
-
-      await knex('produtos')
-        .where('id', produto_id)
-        .decrement('quantidade_estoque', quantidade_produto);
-
-      await knex('pedido_produtos').insert({
-        pedido_id: pedido_id.id,
-        produto_id,
-        quantidade_produto,
-        valor_produto: 0,
-      });
     }));
+
+    if (erros.length > 0) {
+      return res.status(400).json({ erros });
+    }
 
     return res.status(201).json({ mensagem: 'Pedido cadastrado com sucesso' });
   } catch (error) {
