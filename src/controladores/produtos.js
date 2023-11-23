@@ -1,5 +1,5 @@
 const knex = require('../conexao')
-const { enviarImagem } = require('../intermediarios/upload')
+const { enviarImagem, deleteImage } = require('../intermediarios/upload')
 const { produtoSchema } = require('../validacao/produto')
 
 const cadastrarProduto = async (req, res) => {
@@ -141,6 +141,7 @@ const deletarProduto = async (req, res) => {
         if (!produtoExcluido) {
             return res.status(400).json('O produto não foi excluído');
         }
+        await deleteImage(produto.produto_imagem);
 
         return res.status(204).json('Produto excluído com sucesso.');
     } catch (error) {

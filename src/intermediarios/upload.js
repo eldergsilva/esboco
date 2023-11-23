@@ -26,6 +26,22 @@ const enviarImagem = async (path, buffer, mimetype) => {
     }
 }
 
+const deleteImage = async (imgDelete) => {
+    const params = {
+        Bucket: process.env.BUCKET,
+        Key: imgDelete,
+    };
+
+    try {
+        await s3.deleteObject(params).promise();
+        console.log(`Imagem excluída com sucesso: ${imgDelete}`);
+    } catch (error) {
+        console.error(`Erro ao excluir imagem: ${imgDelete}`, error);
+        throw error;
+    }
+};
+
 module.exports = {
-    enviarImagem
+    enviarImagem, 
+    deleteImage
 }
