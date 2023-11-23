@@ -125,13 +125,13 @@ const detalharProduto = async (req, res) => {
 const deletarProduto = async (req, res) => {
     const { id } = req.params;
 
-     // Verificar se tem algum prodito com pedido
-     const produtoEmPedido = await knex('pedido_produtos').where({ produto_id: id }).first();
+    // Verificar se tem algum prodito com pedido
+    const produtoEmPedido = await knex('pedido_produtos').where({ produto_id: id }).first();
 
-     if (produtoEmPedido) {
-       return res.status(400).json({ erro: 'Produto não pode ser excluído, pois está associado a um pedido.' });
-     }
-     
+    if (produtoEmPedido) {
+        return res.status(400).json({ erro: 'Produto não pode ser excluído, pois está associado a um pedido.' });
+    }
+
     try {
         const produto = await knex('produtos')
             .where('id', id)
@@ -148,7 +148,7 @@ const deletarProduto = async (req, res) => {
         if (!produtoExcluido) {
             return res.status(400).json('O produto não foi excluído');
         }
-        await deleteImage(produto.produto_imagem);
+        await deleteImage(produto[0].produto_imagem);
 
         return res.status(204).json('Produto excluído com sucesso.');
     } catch (error) {
