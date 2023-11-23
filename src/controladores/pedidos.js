@@ -47,14 +47,12 @@ const cadastrarPedido = async (req, res) => {
       }
     }));
 
-<<<<<<< HEAD
      const { email: to } = await knex('clientes').where('id', cliente_id).first();
     enviarEmail(to, 'Pedido Cadastrado com Sucesso', 'Seu pedido foi cadastrado com sucesso!');
-=======
->>>>>>> ff7e3b6c10e8abb2834a3edabdac04f29f3d64ab
 
     return res.status(201).json({ mensagem: 'Pedido cadastrado com sucesso' });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ mensagem: 'Erro interno no servidor' });
   }
 };
