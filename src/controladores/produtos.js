@@ -124,7 +124,13 @@ const detalharProduto = async (req, res) => {
 
 const deletarProduto = async (req, res) => {
     const { id } = req.params;
-
+    try {
+        // Verificar se tem algum prodito com pedido
+        const produtoEmPedido = await knex('pedido_produto').where({ id_produto: id }).first();
+    
+        if (produtoEmPedido) {
+          return res.status(400).json({ erro: 'Produto não pode ser excluído, pois está associado a um pedido.' });
+        }
     try {
         const produto = await knex('produtos')
             .where('id', id)

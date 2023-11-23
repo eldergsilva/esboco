@@ -46,10 +46,7 @@ const cadastrarPedido = async (req, res) => {
       }
     }));
 
-    if (erros.length > 0) {
-      return res.status(400).json({ erros });
-    }
-
+    
     return res.status(201).json({ mensagem: 'Pedido cadastrado com sucesso' });
   } catch (error) {
     console.error(error);
