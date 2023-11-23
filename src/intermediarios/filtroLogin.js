@@ -11,7 +11,6 @@ const filtroLogin = async (req, res, next) => {
         });
     }
 
-
     const token = authorization.replace('Bearer ', '').trim();
 
     try {
