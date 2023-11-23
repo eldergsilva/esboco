@@ -26,10 +26,10 @@ const enviarImagem = async (path, buffer, mimetype) => {
     }
 }
 
-const deleteImage = async (imgDelete) => {
+const deleteImage = async (path, imgDelete) => {
     const params = {
         Bucket: process.env.BUCKET,
-        Key: imgDelete,
+        Key: path,
     };
 
     try {
@@ -42,6 +42,6 @@ const deleteImage = async (imgDelete) => {
 };
 
 module.exports = {
-    enviarImagem, 
+    enviarImagem,
     deleteImage
 }
