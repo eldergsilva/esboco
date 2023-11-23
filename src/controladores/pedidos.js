@@ -49,7 +49,7 @@ const cadastrarPedido = async (req, res) => {
 
      const { email: to } = await knex('clientes').where('id', cliente_id).first();
     enviarEmail(to, 'Pedido Cadastrado com Sucesso', 'Seu pedido foi cadastrado com sucesso!');
-
+  console.log(to)
     return res.status(201).json({ mensagem: 'Pedido cadastrado com sucesso' });
   } catch (error) {
     console.error(error);
