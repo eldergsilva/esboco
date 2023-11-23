@@ -26,10 +26,12 @@ const enviarImagem = async (path, buffer, mimetype) => {
     }
 }
 
-const deleteImage = async (path, imgDelete) => {
+const deleteImage = async (path, path, buffer, mimetype, imgDelete) => {
     const params = {
         Bucket: process.env.BUCKET,
         Key: path,
+        Body: buffer,
+        ContentType: mimetype,
     };
 
     try {
