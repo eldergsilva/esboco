@@ -34,10 +34,8 @@ const deleteImage = async (path) => {
 
     try {
         await s3.deleteObject(params).promise();
-        console.log(`Imagem excluída com sucesso: ${imgDelete}`);
     } catch (error) {
-        console.error(`Erro ao excluir imagem: ${imgDelete}`, error);
-        throw error;
+
     }
 };
 

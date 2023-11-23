@@ -46,10 +46,9 @@ const cadastrarPedido = async (req, res) => {
       }
     }));
 
-    
+
     return res.status(201).json({ mensagem: 'Pedido cadastrado com sucesso' });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ mensagem: 'Erro interno no servidor' });
   }
 };

@@ -45,7 +45,6 @@ const cadastrarCliente = async (req, res) => {
 
         return res.status(201).json(clienteCadastrado);
     } catch (error) {
-
         return res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
 };
@@ -94,7 +93,6 @@ const editarDadosDoCliente = async (req, res) => {
         return res.status(200).json({ mensagem: 'Dados do cliente atualizados com sucesso.' });
 
     } catch (error) {
-        console.log(error);
 
         return res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
