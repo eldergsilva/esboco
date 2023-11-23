@@ -148,7 +148,7 @@ const deletarProduto = async (req, res) => {
         if (!produtoExcluido) {
             return res.status(400).json('O produto não foi excluído');
         }
-        await deleteImage(produto[0].produto_imagem);
+        await deleteImage(produto.produto_imagem);
 
         return res.status(204).json('Produto excluído com sucesso.');
     } catch (error) {
